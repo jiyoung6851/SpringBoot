@@ -1,0 +1,29 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boot.dao.PageDAO">
+<!--	<![CDATA[ ]]> : mybatis 에서 특수문자 인식 처리-->
+    <select id="listWithPaging" resultType="com.boot.dto.BoardDTO">
+		<![CDATA[
+        	select rownum, boardNo, boardName, boardTitle, boardContent, boardDate, boardHit
+				from (select rownum, boardNo, boardName, boardTitle, boardContent, boardDate, boardHit
+				from (select row_number() over(order by boardNo desc)
+			 		as rownum, boardNo, boardName, boardTitle, boardContent, boardDate, boardHit
+				from tbl_board order by boardNo desc) a
+			    where rownum <= (#{pageNum} * #{amount})
+					 ) aa
+				where rownum > (#{pageNum} -1)*#{amount};
+	 	]]>
+	</select>
+	
+    <select id="getTotalCount" resultType="int">
+		select count(*) from tbl_board
+	</select>
+	
+ </mapper>
+
+
+
+
+
