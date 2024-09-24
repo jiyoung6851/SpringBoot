@@ -1,0 +1,15 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boot.dao.EmpDeptDAO">
+    <select id="list" resultType="com.boot.dto.EmpDeptDTO">
+        select e.empno
+			 , e.ename
+		     , d.DEPTNO
+		     , d.DNAME
+			from emp e join dept d
+			on e.DEPTNO = d.DEPTNO
+		order by e.EMPNO
+    </select>
+</mapper>
